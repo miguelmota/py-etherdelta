@@ -273,7 +273,7 @@ pip3 install -r requirements.txt
 
     - A: This method is dependent on the `get_ticker()` method. See above question.
 
-- Q: I'm getting import errors and incompatibilities
+- Q: I'm getting import errors and package incompatibilities.
 
     - A: Try upgrading `eth_utils` seperately
 
