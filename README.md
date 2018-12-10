@@ -290,9 +290,9 @@ pip3 install -r requirements.txt
 
 # Resources
 
-- [EtherDelta API](https://github.com/etherdelta/etherdelta.github.io/blob/master/docs/API.md)
+- [EtherDelta API](https://github.com/etherdelta/etherdelta.github.io/blob/master/site/docs/API_OLD.md)
 
-- [EtherDelta Smart Contracts](https://github.com/etherdelta/etherdelta.github.io/blob/master/docs/SMART_CONTRACT.md)
+- [EtherDelta Smart Contracts](https://github.com/etherdelta/etherdelta.github.io/blob/master/site/docs/SMART_CONTRACT.md)
 
 ## License
 
