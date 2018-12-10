@@ -273,6 +273,16 @@ pip3 install -r requirements.txt
 
     - A: This method is dependent on the `get_ticker()` method. See above question.
 
+- Q: I'm getting import errors and incompatibilities
+
+    - A: Try upgrading `eth_utils` seperately
+
+      ```bash
+      pip install eth_utils --upgrade
+      ```
+
+      If that doesn't work report an [issue](https://github.com/miguelmota/py-etherdelta/issues).
+
 - Q: Help! I'm getting a bunch of install errors!
 
     - A: Please report it in the [Issues](https://github.com/coincircle/py-etherdelta/issues).
