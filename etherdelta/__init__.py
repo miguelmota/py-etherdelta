@@ -314,7 +314,7 @@ class Client:
         def callback(msg):
             nonlocal result
             self.ws.close()
-            print(msg)
+            #print(msg)
             if msg != None:
                 if msg:
                     if msg['returnTicker']:
@@ -356,7 +356,7 @@ class Client:
         """
         global addressEtherDelta, w3
         userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
-        print("\nCreating '" + side + "' order for %.18f tokens @ %.18f ETH/token" % (amount, price))
+        #print("\nCreating '" + side + "' order for %.18f tokens @ %.18f ETH/token" % (amount, price))
         # Validate the input
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
         # Ensure good parameters
@@ -379,7 +379,7 @@ class Client:
             amountGet = w3.toWei(amountBigNum, 'ether')
             amountGive = w3.toWei(amountBaseBigNum, 'ether')
         else:
-            print('WARNING: invalid order side, no action taken: ' + str(side))
+            #print('WARNING: invalid order side, no action taken: ' + str(side))
         # Serialize (according to ABI) and sha256 hash the order's parameters
         hashhex = self.solidity_sha256(
             ['address', 'address', 'uint256', 'address', 'uint256', 'uint256', 'uint256'],
@@ -448,8 +448,8 @@ class Client:
             ordertype = 'sell'   # it's a sell order so we are buying tokens for ETH
             amount = eth_amount
         amount_in_wei = web3.toWei(amount, 'ether')
-        print("\nTrading " + str(eth_amount) + " ETH of tokens (" + str(amount) + " tokens) against this " + ordertype + " order: %.10f tokens @ %.10f ETH/token" % (float(order['ethAvailableVolume']), float(order['price'])))
-        print("Details about order: " + str(order))
+        #print("\nTrading " + str(eth_amount) + " ETH of tokens (" + str(amount) + " tokens) against this " + ordertype + " order: %.10f tokens @ %.10f ETH/token" % (float(order['ethAvailableVolume']), float(order['price'])))
+        #print("Details about order: " + str(order))
         # trade function arguments
         kwargs = {
             'tokenGet' : Web3.toChecksumAddress(order['tokenGet']),
@@ -468,18 +468,18 @@ class Client:
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
         # Build binary representation of the function call with arguments
         abidata = self.contractEtherDelta.encodeABI('trade', kwargs=kwargs)
-        print("abidata: " + str(abidata))
+        #print("abidata: " + str(abidata))
         nonce = w3.eth.getTransactionCount(userAccount)
         # Override to have same as other transaction:
         #nonce = 53
-        print("nonce: " + str(nonce))
+        #print("nonce: " + str(nonce))
         transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
-        print(transaction)
+        #print(transaction)
         signed = w3.eth.account.signTransaction(transaction, user_private_key)
-        print("signed: " + str(signed))
+        #print("signed: " + str(signed))
         result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
-        print("Transaction returned: " + str(result))
-        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        #print("Transaction returned: " + str(result))
+        #print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
         return result
 
 
@@ -540,11 +540,11 @@ class Client:
         # Build binary representation of the function call with arguments
         abidata = self.contractEtherDelta.encodeABI("depositToken", kwargs=kwargs)
         transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce + 1, 'chainId': 1}
-        print(transaction)
+        #print(transaction)
         signed = w3.eth.account.signTransaction(transaction, user_private_key)
         depositresult = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
-        print("Transaction returned: " + str(depositresult))
-        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(depositresult))
+        #print("Transaction returned: " + str(depositresult))
+        #print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(depositresult))
 
         result = {
             "approve": approved,
@@ -571,11 +571,11 @@ class Client:
         abidata = token_contract.encodeABI("approve", kwargs=kwargs)
         nonce = w3.eth.getTransactionCount(userAccount)
         transaction = { 'to': Web3.toChecksumAddress(tokenaddress), 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
-        print(transaction)
+        #print(transaction)
         signed = w3.eth.account.signTransaction(transaction, user_private_key)
         result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
-        print("Transaction returned: " + str(result))
-        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        #print("Transaction returned: " + str(result))
+        #print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
         return result, nonce
 
     def __send_transaction(self, func, kwargs, user_private_key):
@@ -590,11 +590,11 @@ class Client:
         abidata = self.contractEtherDelta.encodeABI(func, kwargs=kwargs)
         nonce = w3.eth.getTransactionCount(userAccount)
         transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
-        print(transaction)
+        #print(transaction)
         signed = w3.eth.account.signTransaction(transaction, user_private_key)
         result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
-        print("Transaction returned: " + str(result))
-        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        #print("Transaction returned: " + str(result))
+        #print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
         return result
 
     def deposit(self, amount, user_private_key):
@@ -610,11 +610,11 @@ class Client:
         abidata = self.contractEtherDelta.encodeABI("deposit")
         nonce = w3.eth.getTransactionCount(userAccount)
         transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'value': amount_in_wei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
-        print(transaction)
+        #print(transaction)
         signed = w3.eth.account.signTransaction(transaction, user_private_key)
         result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
-        print("Transaction returned: " + str(result))
-        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        #print("Transaction returned: " + str(result))
+        #print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
         return result
 
     def cancel_order(self, order, user_private_key):
@@ -633,8 +633,8 @@ class Client:
         # Transaction info
         maxGas = 250000
         gasPriceWei = 1000000000    # 1 Gwei
-        print("\nCancelling")
-        print("Details about order: " + str(order))
+        #print("\nCancelling")
+        #print("Details about order: " + str(order))
         # trade function arguments
         kwargs = {
             'tokenGet' : Web3.toChecksumAddress(order['tokenGet']),
@@ -651,18 +651,18 @@ class Client:
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
         # Build binary representation of the function call with arguments
         abidata = self.contractEtherDelta.encodeABI('cancelOrder', kwargs=kwargs)
-        print("abidata: " + str(abidata))
+        #print("abidata: " + str(abidata))
         nonce = w3.eth.getTransactionCount(userAccount)
         # Override to have same as other transaction:
         #nonce = 53
-        print("nonce: " + str(nonce))
+        #print("nonce: " + str(nonce))
         transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
-        print(transaction)
+        #print(transaction)
         signed = w3.eth.account.signTransaction(transaction, user_private_key)
-        print("signed: " + str(signed))
+        #print("signed: " + str(signed))
         result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
-        print("Transaction returned: " + str(result))
-        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        #print("Transaction returned: " + str(result))
+        #print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
         return result
 
     # This function is very similar to Web3.soliditySha3() but there is no Web3.solidity_sha256() as per November 2017
@@ -721,7 +721,7 @@ class Client:
 
     def send_message(self, argObject):
         tosend = '42["message",' + json.JSONEncoder().encode(argObject) + ']'
-        print ('Sending message: ' + tosend)
+        #print ('Sending message: ' + tosend)
         self.ws.send(tosend)
 
     def on_ping(self, ws, ping):
