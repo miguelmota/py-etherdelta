@@ -378,7 +378,7 @@ class Client:
             tokenGet = token
             amountGet = w3.toWei(amountBigNum, 'ether')
             amountGive = w3.toWei(amountBaseBigNum, 'ether')
-        else:
+        #else:
             #print('WARNING: invalid order side, no action taken: ' + str(side))
         # Serialize (according to ABI) and sha256 hash the order's parameters
         hashhex = self.solidity_sha256(
